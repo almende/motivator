@@ -1,8 +1,5 @@
 package alm.motiv.AlmendeMotivator;
 
-import alm.motiv.AlmendeMotivator.facebook.FacebookMainActivity;
-import alm.motiv.AlmendeMotivator.facebook.FacebookManager;
-import alm.motiv.AlmendeMotivator.models.Level;
 import alm.motiv.AlmendeMotivator.models.User;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -14,10 +11,8 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.*;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mongodb.*;
-import org.w3c.dom.Text;
-
-import java.util.concurrent.ExecutionException;
 
 public class ProfileEditActivity extends Activity{
     //menu
@@ -58,6 +53,19 @@ public class ProfileEditActivity extends Activity{
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        //google analytics
+        EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //google analytics
+        EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+    }
 
     //on menu pressed
     public boolean onKeyUp(int keyCode, KeyEvent event) {

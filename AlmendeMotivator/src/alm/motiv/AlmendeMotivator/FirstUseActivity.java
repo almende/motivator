@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
@@ -77,13 +78,27 @@ public class FirstUseActivity extends Activity {
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        //google analytics
+        EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //google analytics
+        EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+    }
+
     //for validation
     private boolean validation() {
         boolean succes = true;
         if (!Validation.isNumericWithoutLimitations(hours, true)) succes = false;
         if (!Validation.hasText(motivation1)) succes = false;
         if (!Validation.hasText(motivation2)) succes = false;
-        if (!Validation.hasText(reasonsNotToExercise)) succes = false;
+        //if (!Validation.hasText(reasonsNotToExercise)) succes = false;
         if (!Validation.hasText(email)) succes = false;
         return succes;
     }
@@ -111,8 +126,9 @@ public class FirstUseActivity extends Activity {
                 // nothing
             }
 
-            Intent newIntent = new Intent(FirstUseActivity.this, FriendActivity.class);
+            Intent newIntent = new Intent(FirstUseActivity.this, FollowFriendActivity.class);
             startActivity(newIntent);
+            finish();
             editor.putBoolean("firstUse", true);
             editor.commit();
         }
